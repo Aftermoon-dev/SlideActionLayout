@@ -10,11 +10,15 @@
     Simple SlideView Layout Library with Fragment, ViewPager2 for Android
 </p>
 
+# Screenshots
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/3215313/116183122-4dd99d80-a758-11eb-8924-f6d61c33c782.png" width="30%">
+    <img src="https://user-images.githubusercontent.com/3215313/116183433-ce000300-a758-11eb-8bdf-a2e146ddcb7c.png" width="30%">
+    <img src="https://user-images.githubusercontent.com/3215313/116183125-4f0aca80-a758-11eb-92ec-51002fe9676a.png" width="30%">
+</p>
+
 # Download
 Will be Later
-
-# Screenshots
-
 
 # Usage
 Will be Later
