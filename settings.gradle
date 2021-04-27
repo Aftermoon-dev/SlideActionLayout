@@ -1,0 +1,3 @@
+include ':SlideActionLayout'
+include ':app'
+rootProject.name = "SlideActionLayout"
