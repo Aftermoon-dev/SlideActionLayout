@@ -16,29 +16,37 @@
 
 package dev.aftermoon.slideactionlayout.createindicator
 
+import android.content.Context
+import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import dev.aftermoon.slideactionlayout.R
 
 class CreateIndicator {
     companion object {
-        /*
-            Create Circle Indicator
-            @param selectedColor Selected Color Code (Hex) - ex. #FFFFFF
-            @param unselectedColor Unselected Color Code (Hex) - ex. #FFFFFF
+        /**
+         * Create Circle Indicator
+         * @param context Context
+         * @param selectedColor Selected Circle Fill Color Value (argb)
+         * @param unselectedColor Unselected Circle Fill Color Value (argb)
          */
-        fun createCircleIndicator(selectedColor: String, unselectedColor: String): StateListDrawable {
+        fun createCircleIndicator(context: Context, selectedColor: Int, unselectedColor: Int): StateListDrawable {
             val stateListDrawable = StateListDrawable()
 
-            val selectedShape = GradientDrawable()
-            selectedShape.shape = GradientDrawable.RING
-            selectedShape.setColor(Color.parseColor(selectedColor))
+            val dotLayout = ResourcesCompat.getDrawable(context.resources, R.drawable.selected_dot, null) as LayerDrawable
+            val selectedShape = dotLayout.findDrawableByLayerId(R.id.slideactionlayout_dot1) as GradientDrawable
+            selectedShape.setColor(selectedColor)
+            stateListDrawable.addState(intArrayOf(android.R.attr.state_selected), selectedShape)
 
-            val unselectedShape = GradientDrawable()
-            unselectedShape.shape = GradientDrawable.RING
-            unselectedShape.setColor(Color.parseColor(unselectedColor))
-
-            stateListDrawable.addState(intArrayOf(android.R.attr.state_pressed), selectedShape)
+            val undotLayout = ResourcesCompat.getDrawable(context.resources, R.drawable.unselected_dot, null) as LayerDrawable
+            val unselectedShape = undotLayout.findDrawableByLayerId(R.id.slideactionlayout_dot2) as GradientDrawable
+            unselectedShape.setColor(unselectedColor)
             stateListDrawable.addState(intArrayOf(), unselectedShape)
 
             return stateListDrawable

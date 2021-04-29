@@ -2,9 +2,9 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/slideactionlayout_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/slideactionlayout_viewpager"
@@ -13,10 +13,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/slideactionlayout_tablayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@android:color/transparent"
         app:tabBackground="@drawable/tab"
         app:tabGravity="center"
+        app:tabMode="fixed"
         app:tabIndicatorHeight="0dp" />
 </merge>

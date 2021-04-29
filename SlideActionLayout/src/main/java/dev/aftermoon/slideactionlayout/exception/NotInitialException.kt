@@ -20,4 +20,5 @@ import java.lang.Exception
 
 class NotInitialException: Exception {
     constructor(): super()
+    constructor(msg: String): super(msg)
 }

@@ -16,11 +16,14 @@
 
 package dev.aftermoon.slideaction_demo
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import androidx.core.content.ContextCompat
+import androidx.viewpager2.widget.ViewPager2
 import dev.aftermoon.slideactionlayout.SlideActionLayout
 import dev.aftermoon.slideactionlayout.createindicator.CreateIndicator
 
@@ -32,10 +35,16 @@ class MainActivity : AppCompatActivity() {
         val layout = findViewById<SlideActionLayout>(R.id.slideactionlayout)
         layout.init(this)
 
+        layout.setIndicatorColor(CreateIndicator.createCircleIndicator(this, getColor(android.R.color.holo_blue_dark), getColor(android.R.color.darker_gray)))
+        layout.setIndicatorGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
+        layout.setSlideOrientation(ViewPager2.ORIENTATION_VERTICAL)
+        layout.setIndicatorRotation(0F)
         ContextCompat.getDrawable(this, R.drawable.first)?.let { layout.addImageFragment(it) }
         ContextCompat.getDrawable(this, R.drawable.second)?.let { layout.addImageFragment(it) }
         ContextCompat.getDrawable(this, R.drawable.third)?.let { layout.addImageFragment(it) }
         layout.addCustomFragment(TestFragment())
+
+
 
     }
 }

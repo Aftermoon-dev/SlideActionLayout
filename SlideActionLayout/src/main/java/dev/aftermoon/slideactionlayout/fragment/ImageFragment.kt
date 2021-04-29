@@ -55,12 +55,13 @@ class ImageFragment: Fragment() {
             bitmap = it.getParcelable("image")
 
             if(bitmap != null) {
-                Log.d(this.javaClass.name, "ImageFragment Success")
+                Log.d(this.javaClass.simpleName, "Image Success")
                 val imgView = view.findViewById(R.id.iv_slideactionlayoutimg) as ImageView
                 imgView.setImageBitmap(bitmap)
             }
             else {
-                Log.d(this.javaClass.name, "ImageFragment Failed")
+                Log.d(this.javaClass.simpleName, "Image is Null")
+                throw NullPointerException()
             }
         }
     }
