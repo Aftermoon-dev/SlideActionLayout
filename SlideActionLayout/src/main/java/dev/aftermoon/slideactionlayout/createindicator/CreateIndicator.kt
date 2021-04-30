@@ -44,8 +44,8 @@ class CreateIndicator {
             selectedShape.setColor(selectedColor)
             stateListDrawable.addState(intArrayOf(android.R.attr.state_selected), selectedShape)
 
-            val undotLayout = ResourcesCompat.getDrawable(context.resources, R.drawable.unselected_dot, null) as LayerDrawable
-            val unselectedShape = undotLayout.findDrawableByLayerId(R.id.slideactionlayout_dot2) as GradientDrawable
+            val unDotLayout = ResourcesCompat.getDrawable(context.resources, R.drawable.unselected_dot, null) as LayerDrawable
+            val unselectedShape = unDotLayout.findDrawableByLayerId(R.id.slideactionlayout_dot2) as GradientDrawable
             unselectedShape.setColor(unselectedColor)
             stateListDrawable.addState(intArrayOf(), unselectedShape)
 
