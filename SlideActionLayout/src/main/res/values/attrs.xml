@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SlideActionLayout">
+        <attr name="slideOrientation" format="enum" >
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
 
+        <attr name="indicatorGravity" format="flags" />
+        <attr name="indicatorRotation" format="float" />
+        <attr name="indicatorBackgroundColor" format="color" />
+        <attr name="tabLayoutBackground" format="reference" />
     </declare-styleable>
 </resources>

@@ -33,18 +33,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val layout = findViewById<SlideActionLayout>(R.id.slideactionlayout)
-        layout.init(this)
 
-        layout.setIndicatorColor(CreateIndicator.createCircleIndicator(this, getColor(android.R.color.holo_blue_dark), getColor(android.R.color.darker_gray)))
+        layout.setTabBackground(CreateIndicator.createCircleIndicator(this, getColor(android.R.color.holo_blue_dark), getColor(android.R.color.darker_gray)))
         layout.setIndicatorGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
-        layout.setSlideOrientation(ViewPager2.ORIENTATION_VERTICAL)
+        layout.setSlideOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
         layout.setIndicatorRotation(0F)
         ContextCompat.getDrawable(this, R.drawable.first)?.let { layout.addImageFragment(it) }
         ContextCompat.getDrawable(this, R.drawable.second)?.let { layout.addImageFragment(it) }
         ContextCompat.getDrawable(this, R.drawable.third)?.let { layout.addImageFragment(it) }
-        layout.addCustomFragment(TestFragment())
-
-
-
+        layout.addFragment(TestFragment())
     }
 }

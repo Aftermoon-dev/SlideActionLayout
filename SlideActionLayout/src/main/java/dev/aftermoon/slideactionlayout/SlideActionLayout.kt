@@ -18,6 +18,7 @@ package dev.aftermoon.slideactionlayout
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
@@ -33,6 +34,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dev.aftermoon.slideactionlayout.exception.NotInitialException
 import dev.aftermoon.slideactionlayout.fragment.ImageFragment
+import java.lang.IllegalArgumentException
 
 class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): FrameLayout(context, attrs, defStyleAttr) {
     private val viewPager: ViewPager2
@@ -44,20 +46,58 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      * Initial Class
      */
     init {
+        // Initializing Variables
         val view = LayoutInflater.from(context).inflate(R.layout.slideactionlayout, this, true)
         viewPager = view.findViewById(R.id.slideactionlayout_viewpager)
         tabLayout = view.findViewById(R.id.slideactionlayout_tablayout)
         layoutParam = tabLayout.layoutParams as LayoutParams
-    }
 
-    /**
-     * Initializing Layout - Must be called before use SlideActionLayout
-     * @param activity FragmentActivity
-     */
-    fun init(activity: FragmentActivity) {
-        slideActionAdapter = SlideActionAdapter(activity)
-        viewPager.adapter = slideActionAdapter
-        TabLayoutMediator(tabLayout, viewPager) { _, _ -> {}}.attach()
+        // If Context is FragmentActivity or its subclass
+        if(context is FragmentActivity) {
+            // Initializing Adapter
+            slideActionAdapter = SlideActionAdapter(context)
+            viewPager.adapter = slideActionAdapter
+
+            // Set TabLayout
+            TabLayoutMediator(tabLayout, viewPager) { _, _ -> {} }.attach()
+
+            // Get Attributes
+            context.theme.obtainStyledAttributes(attrs, R.styleable.SlideActionLayout, 0, 0).apply {
+                try {
+                    // Slide Orientation
+                    val orientation = getInteger(R.styleable.SlideActionLayout_slideOrientation, 0)
+
+                    // Zero is Horizontal, One is Vertical
+                    if (orientation == 0) {
+                        setSlideOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
+                    }
+                    else if(orientation == 1) {
+                        setSlideOrientation(ViewPager2.ORIENTATION_VERTICAL)
+                    }
+
+                    // Indicator Gravity
+                    val indicatorGravity = getInteger(R.styleable.SlideActionLayout_indicatorGravity, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
+                    setIndicatorGravity(indicatorGravity)
+
+                    // Indicator Rotation
+                    val indicatorRotation = getFloat(R.styleable.SlideActionLayout_indicatorRotation, 0F)
+                    setIndicatorRotation(indicatorRotation)
+
+                    // Indicator Background Color
+                    val indicatorBackground = getColor(R.styleable.SlideActionLayout_indicatorBackgroundColor, Color.TRANSPARENT)
+                    setIndicatorBackgroundColor(indicatorBackground)
+
+                    // TabLayout Background
+                    val tabLayoutBackground = getDrawable(R.styleable.SlideActionLayout_tabLayoutBackground)
+                    if(tabLayoutBackground != null) setTabBackground(tabLayoutBackground)
+                } finally {
+                    recycle()
+                }
+            }
+        }
+        else {
+            throw IllegalArgumentException()
+        }
     }
 
     /**
@@ -81,10 +121,10 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
-     * Add Custom Fragment
+     * Add Fragment
      * @param fragment New Fragment
     */
-    fun addCustomFragment(fragment: Fragment) {
+    fun addFragment(fragment: Fragment) {
         checkInitial()
         slideActionAdapter!!.addFragment(fragment)
     }
@@ -127,8 +167,8 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
-     * Set Indicator's Gravity
-     * @param rotation Rotatation Angle
+     * Set Indicator's Rotation
+     * @param rotation Rotation Angle
      */
     fun setIndicatorRotation(rotation: Float) {
         checkInitial()
@@ -136,10 +176,11 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
-     * Set Indicator Color
+     * Set Tab Background
      * @param drawable Selector Drawable (Selected -> android:state_selected="true")
+     * You can make Circle Tab Indicator Drawable using CreateIndicator Class
      */
-    fun setIndicatorColor(drawable: Drawable) {
+    fun setTabBackground(drawable: Drawable) {
         checkInitial()
 
         val tabStrip = tabLayout.getChildAt(0)  as ViewGroup
@@ -180,7 +221,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      */
     private fun checkInitial() {
         if(slideActionAdapter == null) {
-            throw NotInitialException("SlideActionLayout is not Initial! Please Initial before Call Function!")
+            throw NotInitialException("SlideActionLayout is not Initial!")
         }
     }
 }
