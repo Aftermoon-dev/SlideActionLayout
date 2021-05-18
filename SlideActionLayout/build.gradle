@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.github.dcendents.android-maven'
 }
-group = 'dev.aftermoon'
+group = 'com.github.Aftermoon-dev'
 
 android {
     compileSdkVersion 30
