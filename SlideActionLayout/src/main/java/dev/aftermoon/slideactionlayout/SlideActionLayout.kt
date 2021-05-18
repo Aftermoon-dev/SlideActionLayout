@@ -111,6 +111,18 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * Add Fragment Fragments
+     * @param drawables Drawables ArrayList
+     */
+    fun addDrawableFragments(drawables: ArrayList<Drawable>) {
+        checkInitial()
+
+        for(i in 0..drawables.size) {
+            slideActionAdapter!!.addFragment(ImageFragment.newInstance(drawables[i]))
+        }
+    }
+
+    /**
      * Add Image Fragment
      * @param bitmap Bitmap Type Image
     */
@@ -118,6 +130,18 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
         checkInitial()
         val imageFragment = ImageFragment.newInstance(bitmap)
         slideActionAdapter!!.addFragment(imageFragment)
+    }
+
+    /**
+     * Add Bitmap Fragments
+     * @param bitmaps Bitmap ArrayList
+     */
+    fun addBitmapFragments(bitmaps: ArrayList<Bitmap>) {
+        checkInitial()
+
+        for(i in 0..bitmaps.size) {
+            slideActionAdapter!!.addFragment(ImageFragment.newInstance(bitmaps[i]))
+        }
     }
 
     /**
@@ -203,7 +227,6 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      * @return ViewPager2
      */
     fun getViewPager(): ViewPager2 {
-        checkInitial()
         return viewPager
     }
 
@@ -212,7 +235,6 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      * @return TabLayout
      */
     fun getIndicator(): TabLayout {
-        checkInitial()
         return tabLayout
     }
     
