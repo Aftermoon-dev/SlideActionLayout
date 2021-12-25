@@ -24,44 +24,44 @@ import dev.aftermoon.slideactionlayout.exception.LastFragmentException
 class SlideActionAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
     private var fragments: ArrayList<Fragment> = arrayListOf()
 
-    /*
-        Get Number of current fragment list
-        @return Number of current fragment list
+    /**
+     * Get Number of current fragment list
+     * @return Number of current fragment list
      */
     override fun getItemCount(): Int {
         return fragments.size
     }
 
-    /*
-       Create Fragment
-       @param position Fragment Position
-       @return Fragment
+    /**
+     * Create Fragment
+     * @param position Fragment Position
+     * @return Fragment
     */
     override fun createFragment(position: Int): Fragment {
         return fragments[position]
     }
 
-    /*
-       Add New Fragment
-       @param fragment New Fragment
+    /**
+     * Add New Fragment
+     * @param fragment New Fragment
     */
     fun addFragment(fragment: Fragment) {
         fragments.add(fragment)
         notifyItemInserted(fragments.size - 1)
     }
 
-    /*
-       Add New Fragment List
-       @param fragList New Fragment List
+    /**
+     * Add New Fragment List
+     * @param fragList New Fragment List
     */
     fun addFragmentList(fragList: ArrayList<Fragment>) {
         fragments.addAll(fragList)
         notifyItemInserted(fragments.size - 1)
     }
 
-    /*
-       Remove Fragment
-       @param position Fragment Position to be removed
+    /**
+     * Remove Fragment
+     * @param position Fragment Position to be removed
     */
     fun removeFragment(position: Int) {
         // If ItemCount > 1
