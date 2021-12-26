@@ -3,7 +3,8 @@
 <p align="center">
     <a href="https://android-arsenal.com/api?level=16"><img alt="API" src="https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat"/></a>
     <a href="http://www.apache.org/licenses/LICENSE-2.0"><img alt="License" src="https://img.shields.io/github/license/Aftermoon-dev/SlideActionLayout"></a>
-    <a href="https://github.com/CloseHeart/G-Bro"><img alt="Github Stars" src="https://img.shields.io/github/stars/Aftermoon-dev/SlideActionLayout?style=social"></a>
+    <a href="https://github.com/Aftermoon-dev/SlideActionLayout"><img alt="Github Stars" src="https://img.shields.io/github/stars/Aftermoon-dev/SlideActionLayout?style=social"></a>
+    <a href="https://jitpack.io/#Aftermoon-dev/SlideActionLayout"><img alt="Jitpack Version" src="https://jitpack.io/v/Aftermoon-dev/SlideActionLayout.svg"></a>
 </p>
 
 <p align="center">
