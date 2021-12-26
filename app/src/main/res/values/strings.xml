@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SlideActionLayout_Demo</string>
+    <string name="autoslide_on">Enable Auto Slide</string>
+    <string name="autoslide_off">Disable Auto Slide</string>
 </resources>
