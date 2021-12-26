@@ -47,11 +47,11 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             if (layout.isEnableAutoSlide()) {
-                btn.text = getString(R.string.autoslide_off)
+                btn.text = getString(R.string.autoslide_on)
                 layout.setEnableAutoSlide(false)
             }
             else {
-                btn.text = getString(R.string.autoslide_on)
+                btn.text = getString(R.string.autoslide_off)
                 layout.setEnableAutoSlide(true)
             }
         }
