@@ -20,6 +20,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -36,11 +38,17 @@ import dev.aftermoon.slideactionlayout.exception.NotInitialException
 import dev.aftermoon.slideactionlayout.fragment.ImageFragment
 import java.lang.IllegalArgumentException
 
-class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): FrameLayout(context, attrs, defStyleAttr) {
+class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+    companion object {
+        private var autoSlideHandler: Handler? = null
+    }
+
     private val viewPager: ViewPager2
     private val tabLayout: TabLayout
     private var layoutParam: LayoutParams
     private var slideActionAdapter: SlideActionAdapter? = null
+    private var autoSlideEnabled: Boolean = false
+    private var autoSlidePeriod: Long? = null
 
     /**
      * Initial Class
@@ -53,7 +61,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
         layoutParam = tabLayout.layoutParams as LayoutParams
 
         // If Context is FragmentActivity or its subclass
-        if(context is FragmentActivity) {
+        if (context is FragmentActivity) {
             // Initializing Adapter
             slideActionAdapter = SlideActionAdapter(context)
             viewPager.adapter = slideActionAdapter
@@ -70,32 +78,35 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
                     // Zero is Horizontal, One is Vertical
                     if (orientation == 0) {
                         setSlideOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
-                    }
-                    else if(orientation == 1) {
+                    } else if (orientation == 1) {
                         setSlideOrientation(ViewPager2.ORIENTATION_VERTICAL)
                     }
 
-                    // Indicator Gravity
-                    val indicatorGravity = getInteger(R.styleable.SlideActionLayout_indicatorGravity, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
-                    setIndicatorGravity(indicatorGravity)
+                    // Show Indicator
+                    val showIndicator = getBoolean(R.styleable.SlideActionLayout_showIndicator, true)
 
-                    // Indicator Rotation
-                    val indicatorRotation = getFloat(R.styleable.SlideActionLayout_indicatorRotation, 0F)
-                    setIndicatorRotation(indicatorRotation)
+                    if (showIndicator) {
+                        // Indicator Gravity
+                        val indicatorGravity = getInteger(R.styleable.SlideActionLayout_indicatorGravity, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
+                        setIndicatorGravity(indicatorGravity)
 
-                    // Indicator Background Color
-                    val indicatorBackground = getColor(R.styleable.SlideActionLayout_indicatorBackgroundColor, Color.TRANSPARENT)
-                    setIndicatorBackgroundColor(indicatorBackground)
+                        // Indicator Rotation
+                        val indicatorRotation = getFloat(R.styleable.SlideActionLayout_indicatorRotation, 0F)
+                        setIndicatorRotation(indicatorRotation)
+
+                        // Indicator Background Color
+                        val indicatorBackground = getColor(R.styleable.SlideActionLayout_indicatorBackgroundColor, Color.TRANSPARENT)
+                        setIndicatorBackgroundColor(indicatorBackground)
+                    }
 
                     // TabLayout Background
                     val tabLayoutBackground = getDrawable(R.styleable.SlideActionLayout_tabLayoutBackground)
-                    if(tabLayoutBackground != null) setTabBackground(tabLayoutBackground)
+                    if (tabLayoutBackground != null) setTabBackground(tabLayoutBackground)
                 } finally {
                     recycle()
                 }
             }
-        }
-        else {
+        } else {
             throw IllegalArgumentException()
         }
     }
@@ -117,7 +128,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     fun addDrawableFragments(drawables: ArrayList<Drawable>) {
         checkInitial()
 
-        for(i in 0..drawables.size) {
+        for (i in 0..drawables.size) {
             slideActionAdapter!!.addFragment(ImageFragment.newInstance(drawables[i]))
         }
     }
@@ -125,7 +136,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * Add Image Fragment
      * @param bitmap Bitmap Type Image
-    */
+     */
     fun addImageFragment(bitmap: Bitmap) {
         checkInitial()
         val imageFragment = ImageFragment.newInstance(bitmap)
@@ -139,7 +150,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     fun addBitmapFragments(bitmaps: ArrayList<Bitmap>) {
         checkInitial()
 
-        for(i in 0..bitmaps.size) {
+        for (i in 0..bitmaps.size) {
             slideActionAdapter!!.addFragment(ImageFragment.newInstance(bitmaps[i]))
         }
     }
@@ -147,7 +158,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * Add Fragment
      * @param fragment New Fragment
-    */
+     */
     fun addFragment(fragment: Fragment) {
         checkInitial()
         slideActionAdapter!!.addFragment(fragment)
@@ -156,7 +167,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * Remove Fragment by Position
      * @param pos Fragment Position to be removed
-    */
+     */
     fun removeFragment(pos: Int) {
         checkInitial()
         slideActionAdapter!!.removeFragment(pos)
@@ -165,7 +176,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * Set Slide Orientation
      * @param orientation ViewPager2 Orientation Type (ViewPager2.ORIENTATION_HORIZONTAL or ViewPager2.ORIENTATION_VERTICAL)
-    */
+     */
     fun setSlideOrientation(orientation: Int) {
         checkInitial()
         viewPager.orientation = orientation
@@ -183,7 +194,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * Set Indicator's Gravity
      * @param gravity Gravity Type
-    */
+     */
     fun setIndicatorGravity(gravity: Int) {
         checkInitial()
         layoutParam.gravity = gravity
@@ -207,9 +218,9 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     fun setTabBackground(drawable: Drawable) {
         checkInitial()
 
-        val tabStrip = tabLayout.getChildAt(0)  as ViewGroup
+        val tabStrip = tabLayout.getChildAt(0) as ViewGroup
 
-        for(i in 0..tabStrip.childCount) {
+        for (i in 0..tabStrip.childCount) {
             val tabView = tabStrip.getChildAt(i)
             if (tabView != null) {
                 val paddingLeft = tabView.paddingLeft
@@ -226,23 +237,75 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      * Get Slide (ViewPager)
      * @return ViewPager2
      */
-    fun getViewPager(): ViewPager2 {
-        return viewPager
-    }
+    fun getViewPager(): ViewPager2 = viewPager
 
     /**
      * Get Indicator (ViewPager)
      * @return TabLayout
      */
-    fun getIndicator(): TabLayout {
-        return tabLayout
+    fun getIndicator(): TabLayout = tabLayout
+
+    /**
+     * Set Auto Slide
+     * @param period Auto Slide Period
+     * @param startNow Whether to start right away
+     */
+    @Synchronized
+    fun setAutoSlide(period: Long, startNow: Boolean) {
+        checkInitial()
+
+        if (autoSlideHandler == null) {
+            synchronized(SlideActionLayout::class) {
+                autoSlideHandler = Handler(Looper.getMainLooper())
+            }
+        }
+
+        autoSlidePeriod = period
+        setEnableAutoSlide(startNow)
     }
-    
+
+    /**
+     * Enable / Disable Auto Slide
+     * @param enabled Whether Enabled or Disabled Auto Slide
+     */
+    fun setEnableAutoSlide(enabled: Boolean) {
+        autoSlideEnabled = enabled
+
+        if(enabled) {
+            autoSlideHandler!!.postDelayed(object : Runnable {
+                override fun run() {
+                    if(slideActionAdapter != null && autoSlideEnabled) {
+                        if(viewPager.currentItem < slideActionAdapter!!.itemCount) {
+                            viewPager.currentItem = viewPager.currentItem + 1
+                        }
+                        else {
+                            viewPager.currentItem = 0
+                        }
+
+                        autoSlideHandler!!.postDelayed(this, autoSlidePeriod!!)
+                    }
+                }
+            }, autoSlidePeriod!!)
+        }
+        else {
+            if (autoSlideHandler != null) {
+                autoSlideHandler!!.removeCallbacksAndMessages(null)
+                autoSlideHandler = null
+            }
+        }
+    }
+
+    /**
+     * Get Current State of Auto Slide
+     * @return Enabled or Disabled Auto Slide
+     */
+    fun getEnableAutoSlide(): Boolean = autoSlideEnabled
+
     /**
      * Check Initial
      */
     private fun checkInitial() {
-        if(slideActionAdapter == null) {
+        if (slideActionAdapter == null) {
             throw NotInitialException("SlideActionLayout is not Initial!")
         }
     }

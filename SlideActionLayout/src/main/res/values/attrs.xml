@@ -6,6 +6,7 @@
             <enum name="vertical" value="1" />
         </attr>
 
+        <attr name="showIndicator" format="boolean" />
         <attr name="indicatorGravity" format="flags" />
         <attr name="indicatorRotation" format="float" />
         <attr name="indicatorBackgroundColor" format="color" />
