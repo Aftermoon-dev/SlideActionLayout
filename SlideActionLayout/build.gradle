@@ -50,13 +50,13 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.Aftermoon-dev.SlideActionLayout'
-                version = '1.1-rtest0'
+                version = '1.1.0-beta1'
             }
 
             debug(MavenPublication) {
                 from components.debug
                 groupId = 'com.github.Aftermoon-dev.SlideActionLayout'
-                version = '1.1-rtest0'
+                version = '1.1.0-beta1'
             }
         }
     }
