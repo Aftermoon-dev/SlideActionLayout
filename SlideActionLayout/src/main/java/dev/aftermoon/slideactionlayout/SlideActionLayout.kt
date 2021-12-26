@@ -27,6 +27,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -111,6 +112,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
+
     /**
      * Add Image Fragment
      * @param drawable Drawable Type Image
@@ -122,7 +124,18 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
-     * Add Fragment Fragments
+     * Add Image Fragment with Image Scale Type
+     * @param drawable Drawable Type Image
+     * @param scaleType ImageView ScaleType
+     */
+    fun addImageFragment(drawable: Drawable, scaleType: ImageView.ScaleType) {
+        checkInitial()
+        val imageFragment = ImageFragment.newInstance(drawable, scaleType)
+        slideActionAdapter!!.addFragment(imageFragment)
+    }
+
+    /**
+     * Add Image Fragments
      * @param drawables Drawables ArrayList
      */
     fun addDrawableFragments(drawables: ArrayList<Drawable>) {
@@ -130,6 +143,20 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
         for (i in 0..drawables.size) {
             slideActionAdapter!!.addFragment(ImageFragment.newInstance(drawables[i]))
+        }
+    }
+
+
+    /**
+     * Add Image Fragments with Image Scale Type
+     * @param drawables Drawables ArrayList
+     * @param scaleType ImageView ScaleType
+     */
+    fun addDrawableFragments(drawables: ArrayList<Drawable>, scaleType: ImageView.ScaleType) {
+        checkInitial()
+
+        for (i in 0..drawables.size) {
+            slideActionAdapter!!.addFragment(ImageFragment.newInstance(drawables[i], scaleType))
         }
     }
 
@@ -144,6 +171,17 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * Add Image Fragment with Image Scale Type
+     * @param bitmap Bitmap Type Image
+     * @param scaleType ImageView ScaleType
+     */
+    fun addImageFragment(bitmap: Bitmap, scaleType: ImageView.ScaleType) {
+        checkInitial()
+        val imageFragment = ImageFragment.newInstance(bitmap, scaleType)
+        slideActionAdapter!!.addFragment(imageFragment)
+    }
+
+    /**
      * Add Bitmap Fragments
      * @param bitmaps Bitmap ArrayList
      */
@@ -152,6 +190,19 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
         for (i in 0..bitmaps.size) {
             slideActionAdapter!!.addFragment(ImageFragment.newInstance(bitmaps[i]))
+        }
+    }
+
+    /**
+     * Add Bitmap Fragments with Scale Type
+     * @param bitmaps Bitmap ArrayList
+     * @param scaleType ImageView ScaleType
+     */
+    fun addBitmapFragments(bitmaps: ArrayList<Bitmap>, scaleType: ImageView.ScaleType) {
+        checkInitial()
+
+        for (i in 0..bitmaps.size) {
+            slideActionAdapter!!.addFragment(ImageFragment.newInstance(bitmaps[i], scaleType))
         }
     }
 
@@ -290,7 +341,6 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
         else {
             if (autoSlideHandler != null) {
                 autoSlideHandler!!.removeCallbacksAndMessages(null)
-                autoSlideHandler = null
             }
         }
     }
@@ -299,7 +349,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
      * Get Current State of Auto Slide
      * @return Enabled or Disabled Auto Slide
      */
-    fun getEnableAutoSlide(): Boolean = autoSlideEnabled
+    fun isEnableAutoSlide(): Boolean = autoSlideEnabled
 
     /**
      * Check Initial
