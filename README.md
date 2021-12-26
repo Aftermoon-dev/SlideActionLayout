@@ -29,15 +29,12 @@ allprojects {
 }
 ```
 
-2. Add `SlideActionLayout` Dependency to Your Module `build.gradle` File
-
-[![](https://jitpack.io/v/Aftermoon-dev/SlideActionLayout.svg)](https://jitpack.io/#Aftermoon-dev/SlideActionLayout)
+2. Add `SlideActionLayout` Dependency to Your Module `build.gradle` File ([![](https://jitpack.io/v/Aftermoon-dev/SlideActionLayout.svg)](https://jitpack.io/#Aftermoon-dev/SlideActionLayout))
 ```
 dependencies {
 	       implementation 'com.github.Aftermoon-dev:SlideActionLayout:Tag'
 }
 ```
-
 
 # Usage
 Will be Later
