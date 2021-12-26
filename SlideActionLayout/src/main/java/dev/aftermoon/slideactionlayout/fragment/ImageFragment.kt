@@ -30,17 +30,33 @@ import dev.aftermoon.slideactionlayout.R
 
 class ImageFragment: Fragment() {
     private var bitmap: Bitmap? = null
+    private var scaleType: ImageView.ScaleType? = null
 
     companion object {
+
         fun newInstance(drawable: Drawable) = ImageFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("image", drawable.toBitmap())
             }
         }
 
+        fun newInstance(drawable: Drawable, scaleType: ImageView.ScaleType) = ImageFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("image", drawable.toBitmap())
+                putSerializable("scaleType", scaleType)
+            }
+        }
+
         fun newInstance(bitmap: Bitmap) = ImageFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("image", bitmap)
+            }
+        }
+
+        fun newInstance(bitmap: Bitmap, scaleType: ImageView.ScaleType) = ImageFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("image", bitmap)
+                putSerializable("scaleType", scaleType)
             }
         }
     }
@@ -53,11 +69,14 @@ class ImageFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             bitmap = it.getParcelable("image")
+            scaleType = it.getSerializable("scaleType") as ImageView.ScaleType
 
             if(bitmap != null) {
                 Log.d(this.javaClass.simpleName, "Image Success")
                 val imgView = view.findViewById(R.id.iv_slideactionlayoutimg) as ImageView
                 imgView.setImageBitmap(bitmap)
+
+                if(scaleType != null) imgView.scaleType = scaleType!!
             }
             else {
                 Log.d(this.javaClass.simpleName, "Image is Null")
