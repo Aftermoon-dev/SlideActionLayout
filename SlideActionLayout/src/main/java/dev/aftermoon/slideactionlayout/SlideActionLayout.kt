@@ -275,7 +275,7 @@ class SlideActionLayout @JvmOverloads constructor(context: Context, attrs: Attri
             autoSlideHandler!!.postDelayed(object : Runnable {
                 override fun run() {
                     if(slideActionAdapter != null && autoSlideEnabled) {
-                        if(viewPager.currentItem < slideActionAdapter!!.itemCount) {
+                        if(viewPager.currentItem < slideActionAdapter!!.itemCount - 1) {
                             viewPager.currentItem = viewPager.currentItem + 1
                         }
                         else {
