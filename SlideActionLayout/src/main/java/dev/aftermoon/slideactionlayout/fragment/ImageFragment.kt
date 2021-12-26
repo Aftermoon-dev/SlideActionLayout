@@ -69,7 +69,7 @@ class ImageFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             bitmap = it.getParcelable("image")
-            scaleType = it.getSerializable("scaleType") as ImageView.ScaleType
+            scaleType = it.getSerializable("scaleType") as ImageView.ScaleType?
 
             if(bitmap != null) {
                 Log.d(this.javaClass.simpleName, "Image Success")

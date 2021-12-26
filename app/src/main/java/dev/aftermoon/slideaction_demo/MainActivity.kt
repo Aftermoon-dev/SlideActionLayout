@@ -16,12 +16,10 @@
 
 package dev.aftermoon.slideaction_demo
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity
+import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import dev.aftermoon.slideactionlayout.SlideActionLayout
@@ -42,5 +40,20 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.getDrawable(this, R.drawable.second)?.let { layout.addImageFragment(it) }
         ContextCompat.getDrawable(this, R.drawable.third)?.let { layout.addImageFragment(it) }
         layout.addFragment(TestFragment())
+
+        layout.setAutoSlide(3000, true)
+
+        val btn = findViewById<Button>(R.id.btn_autoslide)
+
+        btn.setOnClickListener {
+            if (layout.isEnableAutoSlide()) {
+                btn.text = getString(R.string.autoslide_on)
+                layout.setEnableAutoSlide(false)
+            }
+            else {
+                btn.text = getString(R.string.autoslide_off)
+                layout.setEnableAutoSlide(true)
+            }
+        }
     }
 }

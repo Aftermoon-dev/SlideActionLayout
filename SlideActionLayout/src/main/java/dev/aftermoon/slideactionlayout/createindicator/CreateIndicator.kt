@@ -22,6 +22,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -36,7 +37,7 @@ class CreateIndicator {
          * @param selectedColor Selected Circle Fill Color Value (argb)
          * @param unselectedColor Unselected Circle Fill Color Value (argb)
          */
-        fun createCircleIndicator(context: Context, selectedColor: Int, unselectedColor: Int): StateListDrawable {
+        fun createCircleIndicator(context: Context, @ColorInt selectedColor: Int, @ColorInt unselectedColor: Int): StateListDrawable {
             val stateListDrawable = StateListDrawable()
 
             val dotLayout = ResourcesCompat.getDrawable(context.resources, R.drawable.selected_dot, null) as LayerDrawable
