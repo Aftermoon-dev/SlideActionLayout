@@ -21,20 +21,21 @@
 
 1. Add JitPack Repository to Your Project `build.gradle` File
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 2. Add `SlideActionLayout` Dependency to Your Module `build.gradle` File
+
 [![](https://jitpack.io/v/Aftermoon-dev/SlideActionLayout.svg)](https://jitpack.io/#Aftermoon-dev/SlideActionLayout)
 ```
-	dependencies {
-	        implementation 'com.github.Aftermoon-dev:SlideActionLayout:Tag'
-	}
+dependencies {
+	       implementation 'com.github.Aftermoon-dev:SlideActionLayout:Tag'
+}
 ```
 
 
